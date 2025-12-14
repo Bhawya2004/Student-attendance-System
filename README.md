@@ -1,63 +1,119 @@
-# Student Performance Analysis
+# Student Dropout Prediction System
 
-This project analyzes student performance data to understand factors affecting academic outcomes.
+A Machine Learning-powered REST API for predicting student dropout risk. This project uses a LightGBM model served via FastAPI and is containerized with Docker for easy deployment.
 
-## Project Structure
+## 🚀 Features
+
+- **Dropout Prediction**: Predicts validation/risk of student dropout based on academic and demographic factors.
+- **REST API**: fast and efficient API built with **FastAPI**.
+- **Containerized**: Fully Dockerized for consistent deployment across environments.
+- **ML Integration**: Uses a pre-trained **LightGBM** model for high-accuracy predictions.
+
+## 🛠️ Tech Stack
+
+- **Language**: Python 3.10
+- **Web Framework**: FastAPI, Uvicorn
+- **Machine Learning**: LightGBM, Scikit-learn, NumPy, Pandas, Joblib
+- **Containerization**: Docker
+- **Data Format**: JSON
+
+## 📂 Project Structure
 
 ```
+├── app/
+│   ├── main.py          # FastAPI application entry point
+│   ├── schema.py        # Pydantic models for data validation
+│   └── __init__.py
+├── model/
+│   └── student_attendance_trainned_model.pkl  # Trained LightGBM model
 ├── data/
-│   └── student-mat.csv          # Student mathematics performance dataset
-│
+│   └── student-mat.csv  # Dataset used for training/analysis
 ├── notebooks/
-│   └── day1_data_understanding.ipynb  # Initial data exploration notebook
-│
-├── app/                         # Application code (empty for now)
-├── model/                       # Model files (empty for now)
-├── requirements.txt             # Python dependencies
-└── README.md                    # This file
+│   └── day1_data_understanding.ipynb # Data exploration notebook
+├── Dockerfile           # Docker configuration
+├── requirements.txt     # Python dependencies
+└── README.md            # Project documentation
 ```
 
-## Getting Started
+## ⚡ Setup & Installation
 
-### Prerequisites
+### Option 1: Running with Docker (Recommended)
 
-- Python 3.8 or higher
-- pip package manager
+1.  **Build the Docker image:**
+    ```bash
+    docker build -t student-dropout-api .
+    ```
 
-### Installation
+2.  **Run the container:**
+    ```bash
+    docker run -p 8000:8000 student-dropout-api
+    ```
 
-1. Clone or navigate to this repository:
-   ```bash
-   cd /Users/bhawyagulati/Documents/Student-attendance
-   ```
+The API will be available at `http://localhost:8000`.
 
-2. Create a virtual environment (recommended):
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On macOS/Linux
-   ```
+### Option 2: Running Locally
 
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd Student-attendance
+    ```
 
-### Running the Notebooks
+2.  **Create and activate a virtual environment:**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate  # On Windows: venv\Scripts\activate
+    ```
 
-Launch Jupyter Notebook:
-```bash
-jupyter notebook
-```
+3.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-Then navigate to `notebooks/day1_data_understanding.ipynb` to start exploring the data.
+4.  **Run the server:**
+    ```bash
+    uvicorn app.main:app --reload
+    ```
 
-## Dataset
+## 🔌 API Usage
 
-The dataset contains student performance data in mathematics, including various demographic, social, and school-related features.
+### Health Check
+- **URL**: `/`
+- **Method**: `GET`
+- **Response**:
+  ```json
+  {
+    "message": "Student Dropout Prediction API is running"
+  }
+  ```
 
-## Next Steps
+### Predict Dropout Risk
+- **URL**: `/predict`
+- **Method**: `POST`
+- **Body** (JSON):
+  ```json
+  {
+      "age": 18,
+      "studytime": 2,
+      "failures": 0,
+      "absences": 4,
+      "Medu": 4,
+      "Fedu": 3,
+      "internet": 1,
+      "G1": 15,
+      "G2": 16
+  }
+  ```
+- **Response**:
+  ```json
+  {
+      "dropout_risk": 0,
+      "risk_probability": 0.12
+  }
+  ```
+  *(Note: `dropout_risk` 0 means low risk, 1 means high risk)*
 
-- [ ] Complete data exploration and understanding
-- [ ] Feature engineering and preprocessing
-- [ ] Model development
-- [ ] Application development
+## 📊 Data & Model
+
+- The model is trained on student performance data (including grades `G1`, `G2`, absences, etc.).
+- It uses **LightGBM**, a gradient boosting framework that uses tree-based learning algorithms, known for its speed and efficiency.
