@@ -1,11 +1,12 @@
 # Student Dropout Prediction System
 
-A Machine Learning-powered REST API for predicting student dropout risk. This project uses a LightGBM model served via FastAPI and is containerized with Docker for easy deployment.
+A Machine Learning-powered REST API and Frontend for predicting student dropout risk. This project uses a LightGBM model served via FastAPI, a Streamlit frontend for user interaction, and is containerized with Docker for easy deployment.
 
 ## 🚀 Features
 
-- **Dropout Prediction**: Predicts validation/risk of student dropout based on academic and demographic factors.
-- **REST API**: fast and efficient API built with **FastAPI**.
+- **Dropout Prediction**: Predicts verification/risk of student dropout based on academic and demographic factors.
+- **REST API**: Fast and efficient API built with **FastAPI**.
+- **Interactive UI**: User-friendly web interface built with **Streamlit**.
 - **Containerized**: Fully Dockerized for consistent deployment across environments.
 - **ML Integration**: Uses a pre-trained **LightGBM** model for high-accuracy predictions.
 
@@ -13,6 +14,7 @@ A Machine Learning-powered REST API for predicting student dropout risk. This pr
 
 - **Language**: Python 3.10
 - **Web Framework**: FastAPI, Uvicorn
+- **Frontend**: Streamlit
 - **Machine Learning**: LightGBM, Scikit-learn, NumPy, Pandas, Joblib
 - **Containerization**: Docker
 - **Data Format**: JSON
@@ -24,6 +26,8 @@ A Machine Learning-powered REST API for predicting student dropout risk. This pr
 │   ├── main.py          # FastAPI application entry point
 │   ├── schema.py        # Pydantic models for data validation
 │   └── __init__.py
+├── frontend/
+│   └── streamlit_app.py # Streamlit frontend application
 ├── model/
 │   └── student_attendance_trainned_model.pkl  # Trained LightGBM model
 ├── data/
@@ -37,7 +41,7 @@ A Machine Learning-powered REST API for predicting student dropout risk. This pr
 
 ## ⚡ Setup & Installation
 
-### Option 1: Running with Docker (Recommended)
+### Option 1: Running with Docker (Backend Only)
 
 1.  **Build the Docker image:**
     ```bash
@@ -51,7 +55,7 @@ A Machine Learning-powered REST API for predicting student dropout risk. This pr
 
 The API will be available at `http://localhost:8000`.
 
-### Option 2: Running Locally
+### Option 2: Running Locally (Full System)
 
 1.  **Clone the repository:**
     ```bash
@@ -70,10 +74,18 @@ The API will be available at `http://localhost:8000`.
     pip install -r requirements.txt
     ```
 
-4.  **Run the server:**
+4.  **Run the FastAPI Backend:**
     ```bash
     uvicorn app.main:app --reload
     ```
+    The API will run at `http://127.0.0.1:8000`.
+
+5.  **Run the Streamlit Frontend:**
+    Open a new terminal, activate the environment, and run:
+    ```bash
+    streamlit run frontend/streamlit_app.py
+    ```
+    The frontend will open in your browser at `http://localhost:8501`.
 
 ## 🔌 API Usage
 
