@@ -3,6 +3,8 @@ import joblib
 import numpy as np
 from app.schema import StudentData
 import os
+import csv
+from datetime import datetime
 
 
 
@@ -13,6 +15,29 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "../model/student_attendance_trainned_model.pkl")
 
 model = joblib.load(MODEL_PATH)
+LOG_FILE = "monitoring/logs/predictions.csv"
+
+def log_prediction(data, prediction, probability):
+    file_exists = os.path.isfile(LOG_FILE)
+
+    with open(LOG_FILE, mode="a", newline="") as f:
+        writer = csv.writer(f)
+
+        writer.writerow([
+            data.age,
+            data.studytime,
+            data.failures,
+            data.absences,
+            data.Medu,
+            data.Fedu,
+            data.internet,
+            data.G1,
+            data.G2,
+            prediction,
+            probability,
+            datetime.now()
+        ])
+
 
 @app.get("/")
 def home():
@@ -34,6 +59,9 @@ def predict_dropout(data: StudentData):
 
     prediction = model.predict(input_data)[0]
     probability = model.predict_proba(input_data)[0][1]
+    log_prediction(data, prediction, probability)
+
+    
 
     return {
         "dropout_risk": int(prediction),
