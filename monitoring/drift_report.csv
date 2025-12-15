@@ -1,0 +1,10 @@
+feature,baseline_mean,production_mean,drift_detected
+age,16.7,18.0,False
+studytime,2.04,2.0,False
+failures,0.33,0.0,False
+absences,5.71,4.0,False
+Medu,2.75,4.0,False
+Fedu,2.52,3.0,False
+internet,0.83,1.0,False
+G1,10.91,15.0,False
+G2,10.71,16.0,False
